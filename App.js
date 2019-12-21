@@ -49,30 +49,42 @@ export default class App extends Component {
           }
         })
       })
-      axios.get(RANDOM_FACT_URL).then(response => {
-        this.setState({
-          bottomFact: {
-            ...response.data,
-            image: this.getRandomImageURL()
-          }
-        })
-      })
-    });
+      this.loadBottomFact()
+    })
   }
+
+  loadBottomFact() {
+    axios.get(RANDOM_FACT_URL).then(response => {
+      this.setState({
+        bottomFact: {
+          ...response.data,
+          image: this.getRandomImageURL()
+        }
+      })
+    })
+  };
 
   getRandomImageURL() {
     return `${RANDOM_IMAGE_URL(Math.floor(Math.random() * 500 + 1))}`
   }
 
+  onCardExitDone = () => {
+    this.setState({ topFact: this.state.bottomFact });
+    this.loadBottomFact();
+    this.position.setValue({
+      x: 0,
+      y: 0
+    })
+  }
   forceLeftExit() {
     Animated.timing(this.position, {
       toValue: { x: wp("-100%"), y: 0 }
-    }).start();
+    }).start(this.onCardExitDone);
   }
   forceRightExit() {
     Animated.timing(this.position, {
       toValue: { x: wp("100%"), y: 0 }
-    }).start();
+    }).start(this.onCardExitDone);
   }
   resetPositionSoft() {
     Animated.spring(this.position, {
