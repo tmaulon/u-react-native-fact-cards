@@ -19,7 +19,7 @@ export default class FactCard extends Component {
                 <Image style={{ width: wp("90%"), height: hp("30%") }} source={{ uri: `https://source.unsplash.com/user/kensuke/${hp("30%")}x${wp("90%")}` }}
                 />
 
-                <Text>Voici du texte dans la carte</Text>
+                <Text style={{ padding: 10, marginBottom: hp("3%") }}>Voici du texte dans la carte</Text>
 
                 <Button title="Voir la source" onPress={() => console.log('Button pressed')} ></Button>
 
