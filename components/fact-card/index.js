@@ -3,6 +3,9 @@ import { Text, Button, Linking, ScrollView, View, Image } from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export default class FactCard extends Component {
+    goToTopScrollView = () => {
+        this.scrollView.scrollTo({ x: 0, y: 0, animated: true })
+    }
 
     render() {
         return (
@@ -21,9 +24,13 @@ export default class FactCard extends Component {
                 <Image style={{ width: wp("90%"), height: hp("30%") }} source={{ uri: this.props.fact.image }}
                 />
 
-                <Text style={{ padding: 10, marginBottom: hp("3%") }}>
-                    {this.props.fact.text}
-                </Text>
+                <ScrollView ref={scrollViewRef => { this.scrollView = scrollViewRef }} style={{ width: wp("90%"), height: hp("30%") }}>
+                    <Text style={{ padding: 10, marginBottom: hp("3%") }}>
+                        {this.props.fact.text}
+                    </Text>
+
+                </ScrollView>
+
 
                 <Button disabled={this.props.disabled} title="Voir la source" onPress={() => Linking.openURL(this.props.fact.source_url)} />
 
