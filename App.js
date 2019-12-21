@@ -103,3 +103,19 @@ const styles = StyleSheet.create({
     marginBottom: 50
   },
 });
+
+/*
+log by onPanResponderMove
+"_accountsForMovesUpTo": 9187361.969048,
+"dx": 2.6666717529296875, // distance parcouru en un mouvement en x
+"dy": -1,// distance parcouru en un mouvement en y
+"moveX": 18.333328247070312, // position du doigt actuelle en x
+"moveY": 268.6666564941406, // position du doigt actuelle en y
+"numberActiveTouches": 1, // nombre de doigts qui touchent
+"stateID": 0.8805023799412371, //identificant du geste
+"vx": 0, // Rapidité du mouvement en x
+"vy": -0.0014172563592235491,// Rapidité du mouvement en y
+"x0": 15.666656494140625, // la coordonnée ou le mouvement a commencé en x
+"y0": 269.6666564941406, // la coordonnée ou le mouvement a commencé en y
+"Un mouvement" est tout ce qui se presse entre une pression et un relachement
+*/
