@@ -72,20 +72,38 @@ export default class App extends Component {
     }
   }
 
+  renderTopCard() {
+    return (
+      <Animated.View
+        {...this.state.panResponder.panHandlers}
+        style={this.getCardStyle()}>
+        <FactCard />
+      </Animated.View>
+    )
+  }
+  renderBottomCard() {
+    return (
+      <View
+        style={{ zIndex: -1, position: "absolute" }}>
+        <FactCard />
+      </View>
+    )
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>
           Fact Swipe
         </Text>
-        {
-          this.state.panResponder &&
-          <Animated.View
-            {...this.state.panResponder.panHandlers}
-            style={this.getCardStyle()}>
-            <FactCard />
-          </Animated.View>
-        }
+        <View>
+          {
+            this.state.panResponder && this.renderTopCard()
+          }
+          {
+            this.state.panResponder && this.renderBottomCard()
+          }
+        </View>
       </View>
     )
   }
