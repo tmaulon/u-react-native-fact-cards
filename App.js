@@ -8,7 +8,7 @@ import FactCard from './components/fact-card';
 // a quoi ca doit ressembler ? https://giphy.com/gifs/animation-illustration-motion-26mkhMYkitO7DoJuU/fullscreen
 const RANDOM_FACT_URL =
   "http://randomuselessfact.appspot.com/random.json?language=en";
-const RANDOM_IMAGE_URL = `https://picsum.photos/${hp("30%")}/${hp("90%")}?image=`;
+const RANDOM_IMAGE_URL = (id) => `https://picsum.photos/id/${id}/${Math.round(wp("90%"))}/${Math.round(hp("30%"))}`;
 const MAX_LEFT_ROTATION_DISTANCE = wp("-150%");
 const MAX_RIGHT_ROTATION_DISTANCE = wp("150%");
 const LEFT_TRESHOLD_BEFORE_SWIPE = wp("-50%");
@@ -40,27 +40,28 @@ export default class App extends Component {
         }
       }
     });
-    this.setState({ panResponder });
-    axios.get(RANDOM_FACT_URL).then(response => {
-      this.setState({
-        topFact: {
-          ...response.data,
-          image: this.getRandomImageURL()
-        }
+    this.setState({ panResponder }, () => {
+      axios.get(RANDOM_FACT_URL).then(response => {
+        this.setState({
+          topFact: {
+            ...response.data,
+            image: this.getRandomImageURL()
+          }
+        })
       })
-    })
-    axios.get(RANDOM_FACT_URL).then(response => {
-      this.setState({
-        bottomFact: {
-          ...response.data,
-          image: this.getRandomImageURL()
-        }
+      axios.get(RANDOM_FACT_URL).then(response => {
+        this.setState({
+          bottomFact: {
+            ...response.data,
+            image: this.getRandomImageURL()
+          }
+        })
       })
-    })
+    });
   }
 
   getRandomImageURL() {
-    return `${RANDOM_IMAGE_URL}${Math.floor(Math.random() * 500 + 1)}`
+    return `${RANDOM_IMAGE_URL(Math.floor(Math.random() * 500 + 1))}`
   }
 
   forceLeftExit() {
@@ -97,7 +98,7 @@ export default class App extends Component {
       <Animated.View
         {...this.state.panResponder.panHandlers}
         style={this.getCardStyle()}>
-        <FactCard />
+        <FactCard disabled={false} fact={this.state.topFact} />
       </Animated.View>
     )
   }
@@ -105,7 +106,7 @@ export default class App extends Component {
     return (
       <View
         style={{ zIndex: -1, position: "absolute" }}>
-        <FactCard />
+        <FactCard disabled={true} fact={this.state.bottomFact} />
       </View>
     )
   }
@@ -119,10 +120,10 @@ export default class App extends Component {
         </Text>
         <View>
           {
-            this.state.panResponder && this.renderTopCard()
+            this.state.topFact && this.renderTopCard()
           }
           {
-            this.state.panResponder && this.renderBottomCard()
+            this.state.bottomFact && this.renderBottomCard()
           }
         </View>
       </View>
